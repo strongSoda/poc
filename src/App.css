@@ -36,3 +36,92 @@
     transform: rotate(360deg);
   }
 }
+
+/* playground */
+.playground {
+  width: 80%;
+  /* height: 100%; */
+  margin: 0% auto;
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 11px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* margin: 10px; */
+}
+
+/* white Searchbar with shadow and rounded borders */
+.searchbar {
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+
+  width: 50%;
+}
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.influencer-list {
+  margin: 10px;
+}
+
+.influencer {
+  width: 80%;
+  margin: 0% auto;
+  padding: 10px;
+}
+.influencer .profile {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* margin: 10px; */
+}
+
+.influencer-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
+  /* margin: 10px; */
+}
+
+.influencer-image {
+  display: flex;
+  /* flex-direction: row; */
+  gap: 1em;
+  align-items: center;
+}
+
+.influencer-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* margin: 10px; */
+}
+
+.desc { 
+  text-align: left;
+}
