@@ -1,104 +1,8 @@
 import React, { useEffect } from 'react';
 import { TypeAnimation } from 'react-type-animation';
-
-const BABY_TOYS_INFLUENCERS = [
-    {
-        name: 'Tama Natural',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-1.png',
-        description: 'Mama Natural is a YouTube channel that focuses on natural parenting, pregnancy, and healthy living. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-2.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-3.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-]
-
-const MOM_INFLUENCERS = [
-    {
-        name: 'Mama Natural',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-1.png',
-        description: 'Mama Natural is a YouTube channel that focuses on natural parenting, pregnancy, and healthy living. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-2.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-3.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-]
-
-const LIFESTYLE_INFLUENCERS = [
-    {
-        name: 'Nama Natural',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-1.png',
-        description: 'Mama Natural is a YouTube channel that focuses on natural parenting, pregnancy, and healthy living. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-2.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-    {
-        name: 'Baby Gizmo',
-        image: 'https://tweettailor.com/assets/images/profiles/profile-3.png',
-        description: 'Baby Gizmo is a YouTube channel that focuses on baby gear reviews, parenting tips, and product recommendations. The channel has over 1.5 million subscribers and over 200 million views.',
-        category: 'Baby Toys Influencers',
-        followers: 1.5,
-        engagement: 0.5,
-        cost: 1000,
-        link: 'https://www.youtube.com/channel/UCZQYQZ1J8w2Z7zZ4XZQZQjA'
-    },
-]
+import BABY_TOYS_INFLUENCERS from './baby_toy_influencers';
+import LIFESTYLE_INFLUENCERS from './lifestyle_influencers';
+import MOM_INFLUENCERS from './mom_influencers';
 
 function Playground ( props ) {
 
@@ -107,6 +11,12 @@ function Playground ( props ) {
 
     const [influencerCategory, setInfluencerCategory] = React.useState('');
 
+    const [showReachout , setShowReachout] = React.useState(false);
+
+    const [influencer, setInfluencer] = React.useState(null);
+
+    const [showBookCall, setShowBookCall] = React.useState(false);
+
     const search = (query) => {
         setResult('Influencers that are a best fit for ' + query + ' are ...')
     }
@@ -114,6 +24,11 @@ function Playground ( props ) {
     const findInfluencers = (category) => {
         setInfluencerCategory(category);
     }
+
+    useEffect(() => {
+        console.log(influencer);
+        if(influencer) setShowReachout(true);
+    }, [influencer]);
 
 return (
     <div className = "playground" >
@@ -124,7 +39,11 @@ return (
 
         {showCategories && <Categories findInfluencers={findInfluencers} />}
 
-        {influencerCategory && <Influencers influencerCategory={influencerCategory} />}
+        {influencerCategory && <Influencers influencerCategory={influencerCategory} setInfluencer={setInfluencer} setShowReachout={setShowReachout} setShowBookCall={setShowBookCall} />}
+
+        {showReachout && <Reachout influencer={influencer} setShowReachout={setShowReachout} setInfluencer={setInfluencer} />}
+
+        {showBookCall && <BookCall influencer={influencer} setShowBookCall={setShowBookCall} />}
     </div>
 );
 }
@@ -144,6 +63,7 @@ function Searchbar ( {search} ) {
 function Result ({result, setShowCategories}) {
     return (
         <div className="result">
+        <img className="avatar" src="https://syncy.net/images/logo-p-500.png" alt='logo'/>
         <TypeAnimation
             sequence={[
                 result,
@@ -157,6 +77,7 @@ function Result ({result, setShowCategories}) {
             cursor={true}
             // repeat={Infinity}
             style={{ fontSize: '1em' }}
+            speed={70}
         />
         </div>
     );
@@ -164,7 +85,7 @@ function Result ({result, setShowCategories}) {
 
 function Categories ({findInfluencers}) {
     return (
-        <div>
+        <div className='categories-container'>
             <h2>
             <TypeAnimation
                 sequence={[
@@ -237,7 +158,7 @@ function Categories ({findInfluencers}) {
     );
 }
 
-function Influencers ({influencerCategory}) {
+function Influencers ({influencerCategory, setInfluencer, setShowReachout, setShowBookCall}) {
     const INFLUENCERS = ((category) => {
         if (category === 'Baby Toys Influencers') {
             return BABY_TOYS_INFLUENCERS;
@@ -259,38 +180,99 @@ function Influencers ({influencerCategory}) {
             <h2>Results for {influencerCategory}</h2>
             <div className="influencer-list">
                 {influencers.map((influencer) => (
-                    <Influencer influencer={influencer} />
+                    <Influencer key={influencer._id} influencer={influencer} setInfluencer={setInfluencer} setShowReachout={setShowReachout} setShowBookCall={setShowBookCall} />
                 ))}
             </div>
         </div>
     );
 }
 
-const Influencer = ({ influencer }) => {
+const Influencer = ({ influencer, setInfluencer, setShowReachout, setShowBookCall }) => {
+    useEffect(() => {
+        console.log(influencer);
+    }, [influencer]);
+
     return (
         <div className="influencer">
             <div className='profile'>
-                    <a href={influencer.link}>
+                    <a href={influencer.profileData.profile?.url}>
                 <div className="influencer-image">
                         <div>
-                            <img className='influencer-img' src={influencer.image} alt="influencer" />
+                            <img className='influencer-img' src={influencer.profileData.profile?.picture} alt="influencer" />
                         </div>
-                        <h3>{influencer.name}</h3>
+                        <h3 className='influencer-name'>{influencer.profileData.profile?.fullname}</h3>
                 </div>
                     </a>
                 <div className="influencer-stats">
-                    <p>{influencer.followers}k followers</p>
-                    <p>{influencer.engagement}% engagement</p>
-                    <p>${influencer.cost} cost</p>
+                    <p>{influencer.profileData.profile?.followers} followers</p>
+                    <p>{(influencer.profileData.profile?.engagementRate*100).toFixed(2)}% engagement</p>
+                    {/* <p>${influencer.cost} cost</p> */}
                 </div>
                 <div className='actions'>
-                    <button className='action-button'>Reachout</button> &nbsp;
-                    <button className='action-button'>Strategy</button>
+                    <button className='action-button' onClick={() => setShowBookCall(true)}>Book Call</button> &nbsp;
+                    <button className='action-button' onClick={() => setInfluencer(influencer)}>Reachout</button> &nbsp;
+                    <button className='action-button'>Add to Campaign</button>
                 </div>
             </div>
-            <p className='desc'>{influencer.description}</p>
+            {/* <p className='desc'>{influencer.description}</p> */}
         </div>
     );
 }
+
+const Reachout = ({ influencer, setShowReachout, setInfluencer }) => {
+    return (
+        <div className="reachout">
+
+            {/* close reachout sidebar */}
+            <div className="close-reachout">
+                <button className="close-reachout-button" onClick={() => {
+                    setInfluencer(null)
+                    setShowReachout(false)
+                }}>X</button>
+            </div>
+            <h2>Reachout</h2>
+            <div className="reachout-form">
+                <form>
+                    <label>
+                        <p>Subject</p>
+                        <input type="text" name="name" value="Sponsored Post Opportunity" style={{width: '100%'}} />
+                    </label>
+                    <label>
+                        <p>Message</p>
+                        <textarea
+                        // increase textarea hiehgt
+                        style={{height: '400px', width: '100%'}}
+                        name="message" value={`Hello ${influencer.profileData.profile?.fullname.split(' ')[0]}!,
+
+It's great to meet you! My name is Joe, and I work with Syncy, a marketing agency. We're currently in the process of sourcing climate change influencers for our client, Earthshot. Earthshot is a non-profit focused on inspiring people to take climate action. We'd be looking to schedule a call between you and the founder of Earthshot to discuss a paid collaboration. Would this be of interest?
+
+Cheers,
+Imran
+`} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+    );
+}
+
+const BookCall = ({ influencer, setShowBookCall }) => {
+    return (
+        <div className="book-call">
+
+            {/* close reachout sidebar */}
+            <div className="close-book-call">
+                <button className="close-book-call-button" onClick={() => setShowBookCall(false)}>X</button>
+            </div>
+            <h2>Book Call</h2>
+            <div className="book-call-form" style={{height: '100%'}}>
+                {/* embed calendly */}
+                <iframe src="https://calendly.com/syncy/strategy" title='book call' width="100%" height="100%" frameBorder="0"></iframe>
+            </div>
+        </div>
+    );
+}
+
 
 export default Playground;

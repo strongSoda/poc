@@ -75,11 +75,35 @@
   width: 50%;
 }
 
+.result {
+  width: 75%;
+  margin: 0% auto;
+  background-color: #282c34;
+  color: white;
+  padding: 1em;
+  text-align: left;
+
+  display: flex;
+  align-items: center;
+}
+
 .categories {
+  width: 80%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 10px;
+  justify-content: space-evenly;
+  margin: 0 auto;
+
+  margin-bottom: 10vh;
+
+  background-color: #f1f1f1;
+
+  padding: 10px;
+  
+}
+
+.influencers {
+  margin-top: 2em;
 }
 
 .influencer-list {
@@ -90,6 +114,8 @@
   width: 80%;
   margin: 0% auto;
   padding: 10px;
+
+  border: 1px solid #e6e6e6;
 }
 .influencer .profile {
   display: flex;
@@ -123,5 +149,85 @@
 }
 
 .desc { 
+  text-align: left;
+}
+
+.reachout, .book-call {
+  /* fixed right sidebar full height, 40vw width */
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30vw;
+  height: 100vh;
+  background-color: #f1f1f1;
+  padding: 20px;
+  
+  text-align: left;
+}
+
+.book-call {
+  width: 70vw;
+}
+
+button {
+  background-color: #4c7daf; /* Green */
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+a {
+  color: #2c2f33;
+  text-decoration: none;
+}
+
+.action-button {
+  background-color: #4b474d;
+  border: none;
+  color: white;
+  padding: 2px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+
+  border-radius: 20px;
+}
+
+input[type=submit] {
+  background-color: #2b8a2b;
+  border: none;
+  color: white;
+  padding: 6px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: inline;
+  /* margin: 10px; */
+}
+
+.influencer-name {
+  font-weight: bold;
+  font-size: 1.2em;
+
   text-align: left;
 }
