@@ -16,14 +16,45 @@ async function query(apiKey, prompt) {
   return response.data.choices[0].text;
 }
 
+export async function createReachout(apiKey, influencer, category) {
+  if (!apiKey || apiKey.length === 0) {
+    console.warn("No openai key set. Returning precanned response");
+
+    return `Hello ${influencer.profileData.profile?.fullname.split(" ")[0]}!,
+
+It's great to meet you! My name is Joe, and I work with Syncy, a marketing agency. We're currently in the process of sourcing climate change influencers for our client, Earthshot. Earthshot is a non-profit focused on inspiring people to take climate action. We'd be looking to schedule a call between you and the founder of Earthshot to discuss a paid collaboration. Would this be of interest?
+
+Cheers,
+<Your name>
+`;
+  }
+
+  return await query(
+    apiKey,
+    `
+    You are a large nerual network trained on a large corpus of text from the internet.
+    Your goal is to help a human to reach out to influencers that match a given interest or category.
+    You are creating an initial reach out message with the goal of getting the influencer to respond to you and understanding the proposal the user has put forward.
+    Be kind and sincere in the message.
+    The influencers name is ${influencer.profileData.profile?.fullname}.
+    The influencers engagement rate is ${
+      influencer.profileData.profile?.engagementRate * 100
+    } and has ${
+      influencer.profileData.profile?.followers
+    } followers. The influencers category is ${category}.
+    Please return a message that you would send to the influencer.
+    `
+  );
+}
+
 export async function getCategories(apiKey, keyword) {
   if (!apiKey || apiKey.length === 0) {
     console.warn("No openai key set. Returning precanned response");
-    return Promise.resolve([
+    return [
       "Mom Influencers",
       "Baby Toys Influencers",
       "Lifestyle Influencers",
-    ]);
+    ];
   }
 
   const raw = await query(

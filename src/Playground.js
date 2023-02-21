@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 import BABY_TOYS_INFLUENCERS from "./baby_toy_influencers";
 import LIFESTYLE_INFLUENCERS from "./lifestyle_influencers";
-import { ModelConfiguration, getCategories } from "./model";
+import { ModelConfiguration, getCategories, createReachout } from "./model";
 import MOM_INFLUENCERS from "./mom_influencers";
+import { useAsync } from "react-async-hook";
 
 function Playground(props) {
   const [result, setResult] = React.useState("");
@@ -72,6 +73,7 @@ function Playground(props) {
 
       {influencerCategory && (
         <Influencers
+          categories={categories}
           influencerCategory={influencerCategory}
           setInfluencer={setInfluencer}
           setShowReachout={setShowReachout}
@@ -81,6 +83,8 @@ function Playground(props) {
 
       {showReachout && (
         <Reachout
+          category={influencerCategory}
+          apiKey={openAiKey}
           influencer={influencer}
           setShowReachout={setShowReachout}
           setInfluencer={setInfluencer}
@@ -213,17 +217,21 @@ function Categories({ categories, findInfluencers }) {
 }
 
 function Influencers({
+  categories,
   influencerCategory,
   setInfluencer,
   setShowReachout,
   setShowBookCall,
 }) {
   const INFLUENCERS = ((category) => {
-    if (category === "Baby Toys Influencers") {
+    if (category === "Baby Toys Influencers" || category === categories[0]) {
       return BABY_TOYS_INFLUENCERS;
-    } else if (category === "Mom Influencers") {
+    } else if (category === "Mom Influencers" || category === categories[1]) {
       return MOM_INFLUENCERS;
-    } else if (category === "Lifestyle Influencers") {
+    } else if (
+      category === "Lifestyle Influencers" ||
+      category === categories[2]
+    ) {
       return LIFESTYLE_INFLUENCERS;
     }
   })(influencerCategory);
@@ -310,7 +318,29 @@ const Influencer = ({
   );
 };
 
-const Reachout = ({ influencer, setShowReachout, setInfluencer }) => {
+const Reachout = ({
+  category,
+  apiKey,
+  influencer,
+  setShowReachout,
+  setInfluencer,
+}) => {
+  const [subject, setSubject] = React.useState("Sponsored Post Opportunity");
+
+  const fetchMessage = async () => {
+    return;
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      const msg = await createReachout(apiKey, influencer, category);
+      setMessage(msg);
+    };
+    load();
+  }, [apiKey, category, influencer]);
+
+  const [message, setMessage] = React.useState("Loading...");
+
   return (
     <div className="reachout">
       {/* close reachout sidebar */}
@@ -333,7 +363,8 @@ const Reachout = ({ influencer, setShowReachout, setInfluencer }) => {
             <input
               type="text"
               name="name"
-              value="Sponsored Post Opportunity"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               style={{ width: "100%" }}
             />
           </label>
@@ -343,15 +374,8 @@ const Reachout = ({ influencer, setShowReachout, setInfluencer }) => {
               // increase textarea hiehgt
               style={{ height: "400px", width: "100%" }}
               name="message"
-              value={`Hello ${
-                influencer.profileData.profile?.fullname.split(" ")[0]
-              }!,
-
-It's great to meet you! My name is Joe, and I work with Syncy, a marketing agency. We're currently in the process of sourcing climate change influencers for our client, Earthshot. Earthshot is a non-profit focused on inspiring people to take climate action. We'd be looking to schedule a call between you and the founder of Earthshot to discuss a paid collaboration. Would this be of interest?
-
-Cheers,
-Imran
-`}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             />
           </label>
           <input type="submit" value="Submit" />
