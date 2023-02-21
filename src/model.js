@@ -17,6 +17,15 @@ async function query(apiKey, prompt) {
 }
 
 export async function getCategories(apiKey, keyword) {
+  if (!apiKey || apiKey.length === 0) {
+    console.warn("No openai key set. Returning precanned response");
+    return Promise.resolve([
+      "Mom Influencers",
+      "Baby Toys Influencers",
+      "Lifestyle Influencers",
+    ]);
+  }
+
   const raw = await query(
     apiKey,
     `
