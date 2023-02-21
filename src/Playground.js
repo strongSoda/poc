@@ -16,9 +16,9 @@ function Playground(props) {
 
   const [showBookCall, setShowBookCall] = React.useState(false);
 
-  const search = (query) => {
+  const search = React.useCallback((query) => {
     setResult("Influencers that are a best fit for " + query + " are ...");
-  };
+  }, []);
 
   const findInfluencers = (category) => {
     setInfluencerCategory(category);
@@ -37,7 +37,7 @@ function Playground(props) {
         alt="logo"
       />
       <h1>Syncy</h1>
-      <Searchbar search={search} />
+      <Searchbar onSearch={search} />
       {result && (
         <Result result={result} setShowCategories={setShowCategories} />
       )}
@@ -68,7 +68,7 @@ function Playground(props) {
   );
 }
 
-function Searchbar({ search }) {
+function Searchbar({ onSearch }) {
   const [query, setQuery] = React.useState("baby products");
 
   const onSearchChange = React.useCallback(
@@ -76,6 +76,15 @@ function Searchbar({ search }) {
       setQuery(e.target.value);
     },
     [setQuery]
+  );
+
+  const onHitEnter = React.useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        onSearch(query);
+      }
+    },
+    [onSearch, query]
   );
 
   return (
@@ -86,11 +95,12 @@ function Searchbar({ search }) {
         placeholder="Search"
         value={query}
         onInput={onSearchChange}
+        onKeyDown={onHitEnter}
       />
       <button
         className="searchbutton"
         type="submit"
-        onClick={() => search(query)}
+        onClick={() => onSearch(query)}
       >
         Search
       </button>
