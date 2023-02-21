@@ -17,7 +17,14 @@ function Playground(props) {
 
   const [showBookCall, setShowBookCall] = React.useState(false);
 
-  const [openAiKey, setOpenAiKey] = React.useState("");
+  const [openAiKey, setOpenAiKey] = React.useState(() => {
+    const key = localStorage.getItem("openaikey");
+    if (key && key.length > 0) {
+      return key;
+    } else {
+      return "";
+    }
+  });
 
   const search = React.useCallback((query) => {
     setResult(query);
@@ -32,9 +39,17 @@ function Playground(props) {
     if (influencer) setShowReachout(true);
   }, [influencer]);
 
+  const onUpdateOpenAiKey = React.useCallback((key) => {
+    setOpenAiKey(key);
+    localStorage.setItem("openaikey", key);
+  }, []);
+
   return (
     <div className="playground">
-      <ModelConfiguration openAiKey={openAiKey} setOpenAiKey={setOpenAiKey} />
+      <ModelConfiguration
+        openAiKey={openAiKey}
+        setOpenAiKey={onUpdateOpenAiKey}
+      />
       <img
         className="logo"
         src="https://syncy.net/images/logo-p-500.png"
