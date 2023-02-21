@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 import BABY_TOYS_INFLUENCERS from "./baby_toy_influencers";
 import LIFESTYLE_INFLUENCERS from "./lifestyle_influencers";
+import { ModelConfiguration } from "./model";
 import MOM_INFLUENCERS from "./mom_influencers";
 
 function Playground(props) {
@@ -15,6 +16,8 @@ function Playground(props) {
   const [influencer, setInfluencer] = React.useState(null);
 
   const [showBookCall, setShowBookCall] = React.useState(false);
+
+  const [openAiKey, setOpenAiKey] = React.useState("");
 
   const search = React.useCallback((query) => {
     setResult(query);
@@ -31,6 +34,7 @@ function Playground(props) {
 
   return (
     <div className="playground">
+      <ModelConfiguration openAiKey={openAiKey} setOpenAiKey={setOpenAiKey} />
       <img
         className="logo"
         src="https://syncy.net/images/logo-p-500.png"
