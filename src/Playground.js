@@ -17,7 +17,7 @@ function Playground(props) {
   const [showBookCall, setShowBookCall] = React.useState(false);
 
   const search = React.useCallback((query) => {
-    setResult("Influencers that are a best fit for " + query + " are ...");
+    setResult(query);
   }, []);
 
   const findInfluencers = (category) => {
@@ -109,6 +109,10 @@ function Searchbar({ onSearch }) {
 }
 
 function Result({ result, setShowCategories }) {
+  const message = React.useMemo(
+    () => `Influencers that are a best fit for ${result} are ...`,
+    [result]
+  );
   return (
     <div className="result">
       <img
@@ -118,7 +122,7 @@ function Result({ result, setShowCategories }) {
       />
       <TypeAnimation
         sequence={[
-          result,
+          message,
           1000,
           () => {
             console.log("Done typing!"); // Place optional callbacks anywhere in the array
