@@ -1,4 +1,43 @@
 import React from "react";
+import { Configuration, OpenAIApi } from "openai";
+
+async function query(apiKey, prompt) {
+  const configuration = new Configuration({
+    apiKey,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  const response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt,
+    max_tokens: 200,
+    temperature: 0,
+  });
+  return response.data.choices[0].text;
+}
+
+export async function getCategories(apiKey, keyword) {
+  const raw = await query(
+    apiKey,
+    `
+    You are a large nerual network trained on a large corpus of text from the internet.
+    Your goal is to help a human to find influencers that match a given keyword. You are aiming to return the right category of incluencer.
+    Please return a list of categories with up to 3 categories. The answer should be in the format:
+    ["category1", "category2", "category3"]
+
+    Plaese ensure the answer is a valid json array. If you cannot return a valid JSON array, please return an empty array.
+
+    Please return a list of categories for the keyword "${keyword}".
+    `
+  );
+
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error("Failed to parse response", raw);
+    return [];
+  }
+}
 
 export function ModelConfiguration({ openAiKey, setOpenAiKey }) {
   const [showModelConfig, setShowModelConfig] = React.useState(false);

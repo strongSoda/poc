@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
 import BABY_TOYS_INFLUENCERS from "./baby_toy_influencers";
 import LIFESTYLE_INFLUENCERS from "./lifestyle_influencers";
-import { ModelConfiguration } from "./model";
+import { ModelConfiguration, getCategories } from "./model";
 import MOM_INFLUENCERS from "./mom_influencers";
 
 function Playground(props) {
   const [result, setResult] = React.useState("");
+  const [categories, setCategories] = React.useState([]);
   const [showCategories, setShowCategories] = React.useState(false);
 
   const [influencerCategory, setInfluencerCategory] = React.useState("");
@@ -26,9 +27,13 @@ function Playground(props) {
     }
   });
 
-  const search = React.useCallback((query) => {
-    setResult(query);
-  }, []);
+  const search = React.useCallback(
+    async (query) => {
+      setResult(query);
+      setCategories(await getCategories(openAiKey, query));
+    },
+    [openAiKey]
+  );
 
   const findInfluencers = (category) => {
     setInfluencerCategory(category);
@@ -61,7 +66,9 @@ function Playground(props) {
         <Result result={result} setShowCategories={setShowCategories} />
       )}
 
-      {showCategories && <Categories findInfluencers={findInfluencers} />}
+      {showCategories && (
+        <Categories categories={categories} findInfluencers={findInfluencers} />
+      )}
 
       {influencerCategory && (
         <Influencers
@@ -158,7 +165,7 @@ function Result({ result, setShowCategories }) {
   );
 }
 
-function Categories({ findInfluencers }) {
+function Categories({ categories, findInfluencers }) {
   return (
     <div className="categories-container">
       <h2>
@@ -177,69 +184,29 @@ function Categories({ findInfluencers }) {
         />
       </h2>
       <div className="categories">
-        <div className="category">
-          <h3>
-            <TypeAnimation
-              sequence={[
-                "Mom Influencers",
-                () => {
-                  console.log("Done typing!"); // Place optional callbacks anywhere in the array
-                  // setShowCategories(true);
-                },
-              ]}
-              wrapper="div"
-              cursor={false}
-            />
-          </h3>
-          <button
-            className="categorybutton"
-            onClick={() => findInfluencers("Mom Influencers")}
-          >
-            Find Influencers
-          </button>
-        </div>
-        <div className="category">
-          <h3>
-            <TypeAnimation
-              sequence={[
-                "Baby Toys Influencers",
-                () => {
-                  console.log("Done typing!"); // Place optional callbacks anywhere in the array
-                  // setShowCategories(true);
-                },
-              ]}
-              wrapper="div"
-              cursor={false}
-            />
-          </h3>
-          <button
-            className="categorybutton"
-            onClick={() => findInfluencers("Baby Toys Influencers")}
-          >
-            Find Influencers
-          </button>
-        </div>
-        <div className="category">
-          <h3>
-            <TypeAnimation
-              sequence={[
-                "Lifestyle Influencers",
-                () => {
-                  console.log("Done typing!"); // Place optional callbacks anywhere in the array
-                  // setShowCategories(true);
-                },
-              ]}
-              wrapper="div"
-              cursor={false}
-            />
-          </h3>
-          <button
-            className="categorybutton"
-            onClick={() => findInfluencers("Lifestyle Influencers")}
-          >
-            Find Influencers
-          </button>
-        </div>
+        {categories.map((category) => (
+          <div key={category} className="category">
+            <h3>
+              <TypeAnimation
+                sequence={[
+                  category,
+                  () => {
+                    console.log("Done typing!"); // Place optional callbacks anywhere in the array
+                    // setShowCategories(true);
+                  },
+                ]}
+                wrapper="div"
+                cursor={false}
+              />
+            </h3>
+            <button
+              className="categorybutton"
+              onClick={() => findInfluencers(category)}
+            >
+              Find Influencers
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
